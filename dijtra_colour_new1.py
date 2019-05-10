@@ -5,7 +5,7 @@ def init_graph(v,d):
 		if i==start :
 			d[i]=0
 		else:
-			d[i]=10**5
+			d[i]=10**6
 	print(d)
 
 
@@ -35,22 +35,23 @@ def calc_d(G,source):
 					
 				if(visited[i]==0):
 					source_temp.append(i)
-		visited[s]=1	
+		visited[s]=1
+		print('d_______',d)	
 	return (source_temp)
 
 def reverse_slicing(s):
     return s[::-1]
 
-v=[0,1,2,3]
-#v=[0,1,2]
+#v=[0,1,2,3]
+v=[0,1,2]
 lp=[]
 lightpaths={}
 l=0
 start=0;
 dest=3
-G=[[0,10,50,10],[10,0,20,0],[50,20,0,10],[10,0,10,0]]
+#G=[[0,10,50,10],[10,0,20,0],[50,20,0,10],[10,0,10,0]]
 #G=[[0,500,600,0,0,0],[500,0,300,400,0,0],[600,300,0,500,400,0],[0,400,500,0,300,400],[0,0,400,300,0,600],[0,0,0,400,600,0]]
-#G=[[0,400,0],[400,0,600],[0,600,0]]
+G=[[0,400,0],[400,0,600],[0,600,0]]
 i=0
 
 voisins=['']*len(v)
@@ -135,44 +136,54 @@ j=0
 color=[0]*len(v)
 
 def get_color(voisins,start):
+	color=[0]*len(voisins)
 	color[start]=1
 	i=0
 	while i<len(voisins):
 		if i==start:
 			color[start]=1
 			i=i+1
-			#print('i',i)
-			#print('color',color)
 		else:
 			j=0
 			color[i]=1;
-			#print('i',i)
+			
 			while j<len(voisins[i]):
-				#color[i]+=1
-				#print('voisin',i,'->',voisins[i][j])
-				#print('color',color)
-				#print ('condition',color[i],'==',color[int(voisins[i][j])])
+				
 				if color[i]==color[int(voisins[i][j])]:
-					color[i]+=1
-					#print('color',color)
+					color[i]+=1	
 				j+=1
 			i+=1
+	return color
 get_color(voisins,start)
 print('voi______________',voisins)
-print('color____________',color)
+print('color*********************************',color)
 print('lp______________',lp)
 print('lightpaths______',lightpaths)
 
 lp_graph=[]
 i=0
+lp_graph_num=[]
+lp_voisin=['']*len(lp)
+print('lp_voisin___',lp_voisin)
 for i in range(len(lp)):
 	j=0
 	for j in range(len(lp)):
 		if i!=j:
 			if (lp[i] in lp[j]):
 				temp=[]
+				temp1=''
 				temp.append('l'+str(i+1))
 				temp.append('l'+str(j+1))
+				
 				lp_graph.append(temp)
+		
+				if str(j) not in lp_voisin[j]:
+					lp_voisin[i]=lp_voisin[i]+str(j)
+				if str(i) not in lp_voisin[j]:
+					lp_voisin[j]=lp_voisin[j]+str(i)
 print('lp_graph___',lp_graph)
+print('lp_voisin___',lp_voisin)
+lp_color=[]
+lp_color=get_color(lp_voisin,start)
+print('lp_color___',lp_color)
 			
