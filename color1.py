@@ -32,4 +32,5 @@ def get_color(voisin,start):
 			i+=1
 get_color(voisin,start)
 print('color',color)
+
 		
